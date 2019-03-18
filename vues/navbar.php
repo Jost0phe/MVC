@@ -9,7 +9,7 @@
             <?php if(!isset($_SESSION['connected']) || $_SESSION['connected']!==true){
                 echo '<a class="nav-item nav-link" href="?page=login">Login</a>';
             }else{
-                echo '<a class="nav-item nav-link" href="?page=logout">Logout</a>';
+                echo '<a class="nav-item nav-link" href="?action=user-logout">Logout</a>';
             }?>
         </div>
     </div>
