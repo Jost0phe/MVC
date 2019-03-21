@@ -8,6 +8,11 @@
     
     include PATHMDL.'user.php';
     include PATHCTRL.'userController.php';
+    include PATHCTRL.'dbController.php';
+    
+    $config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
+    
+    $oBdd = new dbController($config['dbConfig']);
     
     $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
     if(is_null($page) || !file_exists(PATHVIEWS.$page.'.php')){
