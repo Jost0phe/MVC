@@ -1,5 +1,4 @@
 <h1>login</h1>
-
 <div class="col-xs-2">
     <form method="POST" action="?action=user-login">
         <label for="identifiant">Identifiant</label>
