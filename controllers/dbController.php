@@ -1,6 +1,6 @@
 <?php
 
-class dbController {
+class dbController extends configController{
     private $bddserver = '127.0.0.1';
     private $bddname = '';
     private $bdduser = 'root';
@@ -8,7 +8,10 @@ class dbController {
     private $bdddriver = '';
     private $bddlink;
     
-    function __construct($config){
+    function __construct(){
+        parent::__construct();
+        $config = parent::getConfigParameter('dbConfig');
+        
         foreach($config as $key=>$value){
             $method = 'set'.ucfirst($key);
             if(method_exists($this, $method)){
@@ -63,5 +66,13 @@ class dbController {
     function setBddpassword($bddpassword) {
         $this->bddpassword = $bddpassword;
     }
-   
+    function getBddlink() {
+        return $this->bddlink;
+    }
+
+    function setBddlink($bddlink) {
+        $this->bddlink = $bddlink;
+    }
+
+
 }

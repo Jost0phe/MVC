@@ -4,4 +4,4 @@ dbConfig:
     bdddriver : mysql
     bdduser : stephane
     bddpassword : admin
-    bddname : blog
+    bddname : Blog

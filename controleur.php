@@ -6,13 +6,27 @@
     define('PATHCTRL', PATHROOT.DS.'controllers'.DS);
     define('PATHMDL', PATHROOT.DS.'models'.DS);
     
-    include PATHMDL.'user.php';
-    include PATHCTRL.'userController.php';
-    include PATHCTRL.'dbController.php';
+    //include PATHMDL.'user.php';
+    //include PATHCTRL.'userController.php';
+    //include PATHCTRL.'dbController.php';
     
-    $config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
+   // $config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
     
-    $oBdd = new dbController($config['dbConfig']);
+    function autoLoadModel($modelName){
+        if(file_exists(PATHMDL.$modelName.'.php')){
+            require_once PATHMDL.$modelName.'.php';
+        }
+    }
+    function autoLoadController($controllerName){
+        if(file_exists(PATHCTRL.$controllerName.'.php')){
+            require_once PATHCTRL.$controllerName.'.php';
+        }
+    }
+    
+    spl_autoload_register('autoLoadModel');
+    spl_autoload_register('autoLoadController');
+    
+    // $oBdd = new dbController($config['dbConfig']);
     
     $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
     if(is_null($page) || !file_exists(PATHVIEWS.$page.'.php')){

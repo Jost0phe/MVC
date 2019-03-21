@@ -26,6 +26,18 @@ class userController {
 
     
     function checkAction(user $user){
+        $oBdd = new dbController();
+        $query = 'SELECT * FROM user WHERE login = :login';
+        
+        $req = $oBdd->getBddlink()->prepare($query);
+        $req->execute(array(
+           'login'=>$user->getLogin() 
+        ));
+        
+        $tabUser = $req->fetch(PDO::FETCH_ASSOC);
+        
+        var_dump($tabUser); die();
+        
         return($user->getPassword()=='toto')?TRUE:FALSE;
     }
     
