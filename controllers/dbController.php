@@ -74,5 +74,70 @@ class dbController extends configController{
         $this->bddlink = $bddlink;
     }
 
-
+    function findOneBy(object $objet, array $options=array()){
+        try{
+            $table = get_class($objet);
+            $champs = '*';
+            if(isset($options['champs']) && !empty($options['champs'])){
+                $champs = implode (',', $options['champs']);
+            }
+            
+            if(!isset($options['criteria'])){
+                throw new Exception(__METHOD__.' '.__LINE__.':criteria doit être définit');
+            }
+            
+            $query = 'SELECT '.$champs.' FROM '.$table.' WHERE ';
+            $nbCriteria = count(array_keys($options['criteria']));
+            $keys = array_keys($options['criteria']);
+            
+            for($i=0; $i< $nbCriteria; $i++){
+                if($i > 0){
+                    $query .= ' AND ';
+                }
+            $query .= $keys[$i].' = :'.$keys[$i];
+            }
+            $query .= ' LIMIT 1';
+            
+            $req = $this->bddlink->prepare($query);
+            $req->execute($options['criteria']);
+            $result = $req->fetch(PDO::FETCH_ASSOC);
+            return $result;                    
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+            return array();
+        }
+    }
+    
+    function findOneById(object $objet, $id){
+        return $this->findOneBy($objet,
+                array(
+            'criteria' => array('id'=>$id)
+            ));
+    }
+    
+    function newRecord(object $object, array $datas = array()){
+        try{
+            if(empty($datas)){
+                throw new Exception(__METHOD__.''.__LINE__.': erreur');
+            }
+            $table = get_class($object);
+            
+            $rowColumns = '`'.implode('`,`', array_keys($datas)).'`';
+            $rowValues = ':'.implode(',:', array_keys($datas));
+            
+            $reqNewRecord = 'INSERT INTO '.$table.' ('.$rowColumns.') VALUES ';
+            $reqNewRecord .= '('.$rowValues.')';
+            
+            echo $reqNewRecord; die();
+            
+            $Enregistrement = $this->bddlink->prepare($reqNewRecord);
+            $Enregistrement->execute($datas);
+                    
+            return array(true);
+        } catch (Exception $ex) {
+            echo $ex->getMessage(); 
+            return array();
+        }
+     
+    }
 }

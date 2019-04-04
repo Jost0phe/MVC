@@ -9,8 +9,7 @@
     //include PATHMDL.'user.php';
     //include PATHCTRL.'userController.php';
     //include PATHCTRL.'dbController.php';
-    
-   // $config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
+    //$config = yaml_parse_file(PATHROOT.DS.'conf'.DS.'parameters.yml');
     
     function autoLoadModel($modelName){
         if(file_exists(PATHMDL.$modelName.'.php')){

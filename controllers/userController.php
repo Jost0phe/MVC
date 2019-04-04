@@ -23,23 +23,46 @@ class userController {
             return $resultCheck;
         }
 
-
-    
     function checkAction(user $user){
         $oBdd = new dbController();
-        $query = 'SELECT * FROM user WHERE login = :login';
         
-        $req = $oBdd->getBddlink()->prepare($query);
-        $req->execute(array(
-           'login'=>$user->getLogin() 
-        ));
-        
-        $tabUser = $req->fetch(PDO::FETCH_ASSOC);
-        
-        var_dump($tabUser); die();
-        
-        return($user->getPassword()=='toto')?TRUE:FALSE;
+        $tabUser = $oBdd->findOneBy(
+               $user,
+                    array(
+                        'champs'=>array(
+                            'password',
+                        ),
+                        'criteria'=> array(
+                            'login'=> $user->getLogin(),
+                        )
+                    ));
+        if(empty($tabUser)){
+            return false;
+        }
+        return (password_verify($user->getPassword(), $tabUser['password']))?true:false;
     }
+    
+function createAction(){
+        $user = new user();
+        $oBdd = new dbController();
+        
+        $userPost = array(
+            'login'=>FILTER_SANITIZE_EMAIL,
+            'password'=>FILTER_SANITIZE_ENCODED
+            );
+        
+        $userTab = filter_input_array(INPUT_POST,$userPost);
+        $userTab['password'] = password_hash($userTab['password'],PASSWORD_BCRYPT);
+        
+        $id = $oBdd->newRecord($user, $userTab);
+        
+        if($id === 0){
+            $_SESSION['msgStyle'] = 'danger';
+            $_SESSION['msgTxt'] = 'Compte correctement créé';
+            return $id;
+        }
+}    
+    
     
     function logoutAction(){
         $_SESSION['connected']=false;
