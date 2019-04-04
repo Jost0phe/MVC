@@ -5,11 +5,13 @@
     </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="index.php">Accueil</a>
+            <a class="nav-item nav-link active" href="?page=accueil">Accueil</a>
             <?php if(!isset($_SESSION['connected']) || $_SESSION['connected']!==true){
                 echo '<a class="nav-item nav-link" href="?page=login">Login</a>';
+                echo '<a class="nav-item nav-link active" href="?page=inscription">Inscription</a>';
             }else{
                 echo '<a class="nav-item nav-link" href="?action=user-logout">Logout</a>';
+                echo '<a class="nav-item nav-link active" href="?page=update">Update</a>';
             }?>
         </div>
     </div>

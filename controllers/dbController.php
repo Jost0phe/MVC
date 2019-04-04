@@ -108,6 +108,57 @@ class dbController extends configController{
         }
     }
     
+    function hydrateRecord(object $object, array $datas){
+        foreach ($datas as $key=>$value){
+            $method = 'set'.ucfirst($key);
+            if(method_exists($object, $method)){
+                $object->$method($value);
+            }
+        }
+    }
+    
+    function findObjectById(object $object, $id){
+        $datas = $this->findOneById($object, $id);
+        $this->hydrateRecord($object, $datas);
+    }
+    
+    public function updateRecord(object $object, array $datas=array()) {
+    try{
+        if(empty($datas)){
+            throw new Exception(__METHOD__.' '.__LINE__.' : datas ne peut être vide');
+        }
+        $table = get_class($object);
+
+        //Affectation des valeurs du formulaire à ma requête
+        $reqUpdateRecord = 'UPDATE '.$table.' SET ';
+
+        $keys = array_keys($datas);
+        $nbKeys = count($keys);
+
+        for($i=0; $i < $nbKeys; $i++ ) {
+            if($i > 0 ) {
+                $reqUpdateRecord .= ', ';
+            }
+            $reqUpdateRecord .= $keys[$i].' = :'.$keys[$i];
+        }
+
+        $reqUpdateRecord .= ' WHERE id = :id';
+
+        $datas['id'] = $object->getId();
+
+        //Préparation de la requête
+        $resUpdateRecord = $this->bddlink->prepare($reqUpdateRecord);
+
+        $resUpdateRecord->execute($datas);
+
+        return $resUpdateRecord->rowCount();
+    } catch (Exception $ex) {
+        echo $ex->getMessage();
+        return 0;
+    }
+
+    }
+
     function findOneById(object $objet, $id){
         return $this->findOneBy($objet,
                 array(
@@ -139,5 +190,30 @@ class dbController extends configController{
             return array();
         }
      
+    }
+    function deleteRecord(object $objet){
+        try{
+            if(!isset($objet)){
+                throw new Exception(__METHOD__.' '.__LINE__.': user doit être défini');
+            }
+            $table = get_class($objet);
+            $query = "DELETE FROM ".$table." WHERE ";
+            $count = count(array_keys($options));
+            $criteria = array_keys($options);
+            for($i = 0; $i < $count; $i++){
+                if($i>0){ 
+                    $query .= ' AND '; 
+                }
+                $query .= $criteria[$i].' = :'.$criteria[$i]; 
+                $options['id'] = $objet->getLogin();
+                $req = $this->bddlink->prepare($query);
+                $req->execute($options);
+                
+                return $req->rowCount();
+            }
+        }catch(Exception $ex){
+            echo $ex->getMessage(); 
+            return array();
+        }
     }
 }

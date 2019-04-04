@@ -6,6 +6,7 @@
     define('PATHCTRL', PATHROOT.DS.'controllers'.DS);
     define('PATHMDL', PATHROOT.DS.'models'.DS);
     
+    
     //include PATHMDL.'user.php';
     //include PATHCTRL.'userController.php';
     //include PATHCTRL.'dbController.php';
@@ -40,8 +41,8 @@
         $objet = new $controller();
         $resAction = $objet->$method();
        
-        if($resAction){
-            $page = $resAction;
+        if(is_array($resAction) && isset($resAction['view'])){
+            $page = $resAction['view'];
         }
     }
     
