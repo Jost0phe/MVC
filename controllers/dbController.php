@@ -122,6 +122,27 @@ class dbController extends configController{
         $this->hydrateRecord($object, $datas);
     }
     
+    function findAll(object $object){
+        function requestAll(object $objet){
+        try{ 
+        $table=get_class($objet); //récupère la classe de mon objet 
+        if(!isset($objet)){ 
+            throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
+        }
+        $query = 'SELECT * FROM '.$table.' WHERE 1'; 
+        $req = $this->bddlink->prepare($query); 
+        $req -> execute();
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+        return $result; 
+        }
+        
+        catch (Exception $ex){ 
+            echo $ex->getMessage(); 
+            return array();   
+        } 
+    } 
+    }
+    
     public function updateRecord(object $object, array $datas=array()) {
     try{
         if(empty($datas)){
@@ -178,8 +199,6 @@ class dbController extends configController{
             
             $reqNewRecord = 'INSERT INTO '.$table.' ('.$rowColumns.') VALUES ';
             $reqNewRecord .= '('.$rowValues.')';
-            
-            echo $reqNewRecord; die();
             
             $Enregistrement = $this->bddlink->prepare($reqNewRecord);
             $Enregistrement->execute($datas);

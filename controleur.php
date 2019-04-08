@@ -6,7 +6,6 @@
     define('PATHCTRL', PATHROOT.DS.'controllers'.DS);
     define('PATHMDL', PATHROOT.DS.'models'.DS);
     
-    
     //include PATHMDL.'user.php';
     //include PATHCTRL.'userController.php';
     //include PATHCTRL.'dbController.php';

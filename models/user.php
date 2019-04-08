@@ -29,5 +29,4 @@ class user {
         $this->id = $id;
     }
 
-
 }

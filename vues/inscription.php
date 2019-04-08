@@ -9,7 +9,7 @@
 <div class="col-xs-2">
     <form method="POST" action="?action=<?=$action?>">
         <label for="identifiant">Identifiant</label>
-        <input type="email" placeholder="Entrez votre identifiant" name="login" class="form-control" 
+            <input type="email" placeholder="Entrez votre identifiant" name="login" class="form-control" 
             <?php if(isset($resAction)){ ?>
             value="<?=$resAction['user']->getLogin();?>"
             <?php } ?>

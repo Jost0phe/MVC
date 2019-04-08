@@ -33,6 +33,7 @@ class userController {
             $_SESSION['msgTxt'] = 'Vous êtes connecté';
             $_SESSION['connected'] = true;
             $_SESSION['userid'] = $user['id'];
+            $_SESSION['login'] = $objUser->getLogin();
             return array('view'=>'welcome');
         }
         $_SESSION['msgStyle'] = 'danger';
@@ -41,7 +42,6 @@ class userController {
         return $resultCheck;
     }
 
-    
     function updateAction() {
         $user= new user();
         $oBdd = new dbController();
@@ -141,8 +141,9 @@ class userController {
         $_SESSION['msgStyle'] = 'success';
         $_SESSION['msgTxt'] = 'Compte supprimé';
     }
+
     function logoutAction(){
-        $_SESSION['connected']=false;
+        $_SESSION['connected'] = false;
         session_destroy();
         return null;
     }

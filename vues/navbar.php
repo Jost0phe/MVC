@@ -11,6 +11,7 @@
                 echo '<a class="nav-item nav-link active" href="?page=inscription">Inscription</a>';
             }else{
                 echo '<a class="nav-item nav-link" href="?action=user-logout">Logout</a>';
+                echo '<a class="nav-item nav-link" href="?page=publier">Publier un article</a>';
                 echo '<a class="nav-item nav-link active" href="?page=update">Update</a>';
             }?>
         </div>
