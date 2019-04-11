@@ -96,11 +96,43 @@ class dbController extends configController{
                 }
             $query .= $keys[$i].' = :'.$keys[$i];
             }
-            $query .= ' LIMIT 1';
-            
+            //$query .= ' LIMIT 1';
+//            var_dump($query); die();
             $req = $this->bddlink->prepare($query);
             $req->execute($options['criteria']);
             $result = $req->fetch(PDO::FETCH_ASSOC);
+            return $result;                    
+        }catch(Exception $ex){
+            echo $ex->getMessage();
+            return array();
+        }
+    }
+    
+    
+    function findObjectbyAuteur(object $objet, array $options=array()){
+        try{
+            $table = get_class($objet);
+            $champs = '*';
+            if(isset($options['champs']) && !empty($options['champs'])){
+                $champs = implode (',', $options['champs']);
+            }
+            if(!isset($options['criteria'])){
+                throw new Exception(__METHOD__.' '.__LINE__.':criteria doit être définit');
+            }
+            $query = 'SELECT '.$champs.' FROM '.$table.' WHERE ';
+            $nbCriteria = count(array_keys($options['criteria']));
+            $keys = array_keys($options['criteria']);
+            
+            for($i=0; $i< $nbCriteria; $i++){
+                if($i > 0){
+                    $query .= ' AND ';
+                }
+            $query .= $keys[$i].' = :'.$keys[$i];
+            }
+            //$query .= ' LIMIT 1';
+            $req = $this->bddlink->prepare($query);
+            $req->execute($options['criteria']);
+            $result = $req->fetchAll(PDO::FETCH_CLASS, $table);
             return $result;                    
         }catch(Exception $ex){
             echo $ex->getMessage();
@@ -123,16 +155,15 @@ class dbController extends configController{
     }
     
     function findAll(object $object){
-        function requestAll(object $objet){
         try{ 
-        $table=get_class($objet); //récupère la classe de mon objet 
-        if(!isset($objet)){ 
+        $table=get_class($object); //récupère la classe de mon objet 
+        if(!isset($object)){ 
             throw new Exception(__METHOD__.' '.__LINE__.': criteria doit être défini'); 
         }
-        $query = 'SELECT * FROM '.$table.' WHERE 1'; 
+        $query = 'SELECT * FROM '.$table; 
         $req = $this->bddlink->prepare($query); 
         $req -> execute();
-        $result = $req->fetch(PDO::FETCH_ASSOC);
+        $result = $req->fetchAll(PDO::FETCH_CLASS, $table);
         return $result; 
         }
         
@@ -140,7 +171,6 @@ class dbController extends configController{
             echo $ex->getMessage(); 
             return array();   
         } 
-    } 
     }
     
     public function updateRecord(object $object, array $datas=array()) {

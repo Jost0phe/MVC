@@ -12,11 +12,36 @@
                 'nom'=>$nom,
                 'auteur'=>$auteur,
                 'contenu'=>$contenu,
-                'date'=>date('Y-m-d H:i:s')
             );
 //            var_dump($datas); die();
             $oBdd = new dbController();
-            $oBdd->newRecord($article,$datas);
+//            var_dump($oBdd->newRecord($article,$datas)); die();
+            header('Location:?action=article-display');
+        }
+        
+        function modifAction(){
+            $article = new article();
+            $oBdd = new dbController();
+            
+            $userPost = array(
+                'nom'=> FILTER_SANITIZE_STRING,
+                'contenu'=> FILTER_SANITIZE_STRING,
+                'date'=> FILTER_SANITIZE_STRING,
+                'auteur'=> FILTER_SANITIZE_SRING
+            );
+            
+            $userTab = filter_input_array(INPUT_POST, $userPost);
+            
+        $article->setId($_SESSION['userid']);
+        $nbUpdate = $oBdd->updateRecord($user, $userTab);
+        if($nbUpdate === 0) {
+            $_SESSION['msgStyle'] = 'danger';
+            $_SESSION['msgTxt'] = 'Erreur lors de la modification de l\'utilisateur';
+            return 0;
+        }
+        $_SESSION['msgStyle'] = 'success';
+        $_SESSION['msgTxt'] = 'Compte correctement modifié';
+        return $nbUpdate;
         }
         
         function supprimerAction(){
@@ -35,11 +60,34 @@
             $_SESSION['msgTxt'] = 'Article supprimé';
         }
         
-        function displayArticle(){
+        function displayAction(){
             $article = new article();
             $oBdd = new dbController();
             
-            $tabart = $oBdd->findAll($artcle);
+            $tabArt = $oBdd->findAll($article);
+            
+//            var_dump($tabArt); die();
+            
+            return array("view"=>"accueil","articles"=>$tabArt);
+                        
+        }
+        
+        function displaybyIdAction(){
+            $article = new article();
+            $oBdd = new dbController();
+            $tab = array(
+                'champs'=>array(
+                    '*'
+                ),
+                'criteria'=>array(
+                    'auteur'=>$_SESSION['login']
+                )
+            );
+            
+            $tabArt = $oBdd->findObjectbyAuteur($article, $tab);
+            
+            return array("view"=>"deleteArticle","articles"=>$tabArt);
+                        
         }
     }
 

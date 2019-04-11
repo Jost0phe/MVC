@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/page.php</file>
+            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/controllers/articleController.php</file>
+            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/models/article.php</file>
             <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/controllers/userController.php</file>
-            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/update.php</file>
+            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/header.php</file>
             <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/controleur.php</file>
-            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/delete.php</file>
-            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/inscription.php</file>
+            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/accueil.php</file>
+            <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/vues/displayArticles.php</file>
             <file>file:/C:/Users/Stephane/Documents/NetBeansProjects/MVC/controllers/dbController.php</file>
         </group>
     </open-files>

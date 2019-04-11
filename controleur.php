@@ -28,10 +28,11 @@
     // $oBdd = new dbController($config['dbConfig']);
     
     $page = filter_input(INPUT_GET,'page', FILTER_SANITIZE_STRING);
-    if(is_null($page) || !file_exists(PATHVIEWS.$page.'.php')){
-        $page = 'accueil';
+    $action = filter_input(INPUT_GET,'action', FILTER_SANITIZE_STRING);
+    
+    if($page == 'accueil' && is_null($action)){
+        $action='article-display';
     }
-    $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
     
     if(!is_null($action)){
         $tabAction = explode ('-', $action);
@@ -43,6 +44,10 @@
         if(is_array($resAction) && isset($resAction['view'])){
             $page = $resAction['view'];
         }
+    }
+    
+    if(is_null($page) || !file_exists(PATHVIEWS.$page.'.php')){
+        $page = 'accueil';
     }
     
     include PATHVIEWS.'page.php';

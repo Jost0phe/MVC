@@ -11,6 +11,7 @@ class userController {
         $objUser->setLogin($login);
         $objUser->setPassword($password);
         
+        
         // Test le mot de passe
         $resultCheck = $this->checkAction($objUser);
         
@@ -73,6 +74,7 @@ class userController {
         function checkAction(user $user) {
         $oBdd = new dbController();
 //        $tabUser = $oBdd->findOneById($user, 10);
+        $fetch = 'PDO::FETCH_ASSOC';
         $tabUser = $oBdd->findOneBy(
             $user, 
                 array(
@@ -145,6 +147,6 @@ class userController {
     function logoutAction(){
         $_SESSION['connected'] = false;
         session_destroy();
-        return null;
+        header('Location:?action=article-display');
     }
 }

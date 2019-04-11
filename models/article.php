@@ -1,29 +1,29 @@
 <?php
 class article {
     private $id;
-    private $articlenom;
-    private $articleauteur;
-    private $articlecontenu;
-    private $articledate;
+    private $nom;
+    private $auteur;
+    private $contenu;
+    private $date;
     
     function getId() {
         return $this->id;
     }
 
     function getArticlenom() {
-        return $this->articlenom;
+        return $this->nom;
     }
 
     function getArticleauteur() {
-        return $this->articleauteur;
+        return $this->auteur;
     }
 
     function getArticlecontenu() {
-        return $this->articlecontenu;
+        return $this->contenu;
     }
 
     function getArticledate() {
-        return $this->articledate;
+        return $this->date;
     }
 
     function setId($id) {
@@ -31,19 +31,19 @@ class article {
     }
 
     function setArticlenom($articlenom) {
-        $this->articlenom = $articlenom;
+        $this->nom = $articlenom;
     }
 
     function setArticleauteur($articleauteur) {
-        $this->articleauteur = $articleauteur;
+        $this->auteur = $articleauteur;
     }
 
     function setArticlecontenu($articlecontenu) {
-        $this->articlecontenu = $articlecontenu;
+        $this->contenu = $articlecontenu;
     }
 
     function setArticledate($articledate) {
-        $this->articledate = $articledate;
+        $this->date = $articledate;
     }
 
 }
